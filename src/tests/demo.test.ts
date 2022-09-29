@@ -2,12 +2,18 @@ import { test, expect } from '@playwright/test';
 import {Solvents} from '../solvents/solvent'
 
 let solvent :Solvents;
-test('homepage has Playwright in title and get started link linking to the intro page', async ({ page }) => {
+test('BookTicket', async ({ page }) => {
   solvent=new Solvents(page);
   await solvent.login();
-  await solvent.fillJourneyDetails("dure","howrah","30/09/2022");
+  await solvent.fillJourneyDetails("dure","howrah","2/10/2022");
   await solvent.clickButtonByText("Search");
   await page.waitForTimeout(3*1000);
-  expect(await solvent.isTrainListPageVisible()).toBeTruthy();
+  // expect(await solvent.isTrainListPageVisible()).toBeTruthy();
+  await solvent.selectTrainAndCoachSeat("12334","3A");
+  await solvent.clickButtonByText("Book Now");
+  if(await solvent.checkDialogBox()){
+    await solvent.clickButtonByText("I Agree");}
+  if(await solvent.checkDialogBox()){
+    await solvent.clickButtonByText("Yes");}
   await page.waitForTimeout(300*1000);
 });
